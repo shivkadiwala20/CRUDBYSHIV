@@ -44,7 +44,7 @@ function initEmployeeApp() {
 
 
     const data = JSON.parse(localStorage.getItem(storageKey)) || [];
-    const isDuplicate = data.some((employee) => employee.name === name && employee.email === email);
+    const isDuplicate = data.some((employee) => employee.email === email);
 
     if (isDuplicate) {
       alert("Record with the same name and email already exists.");
