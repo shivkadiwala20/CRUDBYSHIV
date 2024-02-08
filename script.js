@@ -47,7 +47,7 @@ function initEmployeeApp() {
     const isDuplicate = data.some((employee) => employee.email === email);
 
     if (isDuplicate) {
-      alert("Record with the same name and email already exists.");
+      alert("Record with the same email already exists.");
       return;
     }
 
