@@ -35,38 +35,25 @@ function initEmployeeApp() {
       ) + "-" + data.length
     );
   }
-  function createTableHeaders(tableId, headers) {
+  function createTableHeaders(tableId) {
     const table = document.getElementById(tableId);
     const thead = table.createTHead();
 
-    headers.forEach((header, rowIndex) => {
-      const row = thead.insertRow(rowIndex);
+    const row = thead.insertRow();
 
-      if (rowIndex === 1) {
-        header.forEach(headerText => {
-          const th = document.createElement("th");
-          th.appendChild(document.createTextNode(headerText));
-          row.appendChild(th);
-        });
-      } else {
-        const th = document.createElement("th");
-        th.appendChild(document.createTextNode(header));
-        row.appendChild(th);
-      }
+    const headers = [
+      "Id", "Name", "Gender", "Date of Birth", "Email", "Phone", "Hobbies", "Actions"
+    ];
+
+    headers.forEach(headerText => {
+      const th = document.createElement("th");
+      th.appendChild(document.createTextNode(headerText));
+      row.appendChild(th);
     });
   }
 
-  const basicTableHeaders = [
-    "Id", "Name", "Gender", "Date of Birth", "Email", "Phone", "Hobbies", "Actions"
-  ];
-  createTableHeaders("displayTable", [basicTableHeaders]);
-
-
-  const advanceTableHeaders = [
-    ["Id"],
-    ["Name"], ["Gender"], ["Date of Birth"], ["Phone"], ["Email"], ["Hobbies"], ["Actions"]
-  ];  
-  createTableHeaders("displayAdvTable", advanceTableHeaders);
+  createTableHeaders("displayTable");
+  createTableHeaders("displayAdvTable");
 
   function addEmployee() {
     const form = document.forms.employeeForm;
@@ -130,75 +117,172 @@ function initEmployeeApp() {
       hobbies,
     };
 
-    const existingData = JSON.parse(localStorage.getItem(storageKey)) || [];
-    existingData.push(employee);
-    localStorage.setItem(storageKey, JSON.stringify(existingData));
+
+    data.push(employee);
+    localStorage.setItem(storageKey, JSON.stringify(data));
     form.reset();
-    displayEmployees();
-    alert("Record has been added successfully.");
+    basicTableData();
     advanceTable();
-    location.reload();
+    alert("Record has been added successfully.");
    
   }
 
 
+    // function advanceTable() {
+    //   const advanceTable = document.getElementById("displayAdvTable");
+    //   const trs = advanceTable.getElementsByTagName("tr");
+    //   const advanceChild = document.getElementById("advanceChild");
+    
+    //   const arr = JSON.parse(localStorage.getItem(storageKey)) || [];
+    
+    //   if (arr.length === 0) {
+    //     advanceTable.style.display = "none";
+    //     advanceChild.style.display = "none";
+    //     return;
+    //   }
+    
+    //   advanceChild.style.padding = "55px 0 0 0";
+    
+    //   const advData = Object.keys(arr[0]);
+      
+    
+    //   // if (trs.length > 0) {
+    //   //   for (let i = 0; i < trs.length; i++) {
+    //   //     trs[i].innerHTML = "";
+    //   //     console.log(trs)
+          
+    //   //     }
+                
+          
+    //   //     } 
+          
+    //     for (let i = 0; i < advData.length + 1; i++) {
+    //     const tr = document.createElement("tr");
+      
+        
+    //     for (let x in arr) {
+          
+    //       const td = document.createElement("td");
+    //           console.log(td)
+
+                
+    //       if (i === advData.length) {
+    //         td.style.width = "100%";
+    //         const editButton = document.createElement("button");
+    //         editButton.textContent = "Edit";
+    //         td.appendChild(editButton);
+    //         editButton.addEventListener("click", () => editEmployee(arr[x].id));
+    
+    //         const deleteButton = document.createElement("button");
+    //         deleteButton.textContent = "Delete";
+    //         td.appendChild(deleteButton);
+    //         deleteButton.addEventListener("click", () => {
+    //           const permission = confirm("Are you sure?");
+    //           if (permission) {
+    //             deleteEmployee(arr[x].id);
+    //           }
+    //         });
+    //       } else {
+    //         td.innerText = i === 0 ? Number(x) + 1 : arr[x][advData[i]];
+    //       }
+
+          
+
+    //       if (!trs[i]) {
+    //         trs[i] = document.createElement("tr");
+          
+    //         advanceTable.appendChild(trs[i]);
+    //       }
+    
+    //       trs[i].appendChild(td);
+    //     }
+    //   }
+
+    // }
+  
+
+    function createCell(text, isAction = false, action = null) {
+      const td = document.createElement("td");
+      
+      if (isAction) {
+          const button = document.createElement("button");
+          button.textContent = text;
+          button.addEventListener("click", action);
+          td.appendChild(button);
+      } else {
+          td.textContent = text;
+      }
+      return td;
+  }
+  
+
   function advanceTable() {
     const advanceTable = document.getElementById("displayAdvTable");
-    const trs = advanceTable.getElementsByTagName("tr");
     const advanceChild = document.getElementById("advanceChild");
   
     const arr = JSON.parse(localStorage.getItem(storageKey)) || [];
   
     if (arr.length === 0) {
-      advanceTable.style.display = "none";
-      advanceChild.style.display = "none";
-      return;
+        advanceTable.style.display = "none";
+        advanceChild.style.display = "none";
+        return;
     }
   
     advanceChild.style.padding = "55px 0 0 0";
   
-    const advData = Object.keys(arr[0]);
+   
+    while (advanceTable.firstChild) {
+        advanceTable.removeChild(advanceTable.firstChild);
+    }
   
-    for (let i = 0; i < advData.length + 1; i++) {
-      const tr = document.createElement("tr");
+    const trIndex = document.createElement("tr");
+    const thIndex = document.createElement("th");
+    thIndex.textContent = "Index";
+    trIndex.appendChild(thIndex);
+    advanceTable.appendChild(trIndex);
   
-      for (let x in arr) {
+    Object.keys(arr[0]).forEach(key => {
+        if (key !== 'id') {
+            const tr = document.createElement("tr");
+            const th = document.createElement("th");
+            th.textContent = key;
+            tr.appendChild(th);
+            advanceTable.appendChild(tr);
+        }
+    });
+    const tr = document.createElement("tr");
+    tr.appendChild(createCell("Actions"));
+    advanceTable.appendChild(tr);
+  
+   
+    arr.forEach((item, index) => {
+        const tdIndex = createCell(index + 1);
+        advanceTable.rows[0].appendChild(tdIndex);
+  
+        Object.values(item).forEach((value, i) => {
+            if (i !== 0) {
+                const td = createCell(value);
+                
+                advanceTable.rows[i].appendChild(td);
+            }
+        });
         const td = document.createElement("td");
-  
-        if (i === advData.length) {
-          td.style.width = "100%";
-          const editButton = document.createElement("button");
-          editButton.textContent = "Edit";
-          td.appendChild(editButton);
-          editButton.addEventListener("click", () => editEmployee(arr[x].id));
-  
-          const deleteButton = document.createElement("button");
-          deleteButton.textContent = "Delete";
-          td.appendChild(deleteButton);
-          deleteButton.addEventListener("click", () => {
+        // td.style.width = "100%"
+        const editButton = createCell("Edit", true, () => editEmployee(item.id));
+        const deleteButton = createCell("Delete", true, () => {
             const permission = confirm("Are you sure?");
             if (permission) {
-              deleteEmployee(arr[x].id);
+                deleteEmployee(item.id);
             }
-          });
-        } else {
-          td.innerText = i === 0 ? Number(x) + 1 : arr[x][advData[i]];
-        }
-  
-        // Update existing row or create a new row if not exists
-        if (!trs[i]) {
-          trs[i] = document.createElement("tr");
-          advanceTable.appendChild(trs[i]);
-        }
-  
-        trs[i].appendChild(td);
-      }
-    }
+        });
+        td.appendChild(editButton);
+        td.appendChild(deleteButton);
+        advanceTable.rows[advanceTable.rows.length - 1].appendChild(td);
+    });
   }
-  
 
 
-  function displayEmployees() {
+  function basicTableData() {
     const basicTable = document.getElementById("displayTable");
     const basicChild = document.getElementById("basicChild");
     const data = JSON.parse(localStorage.getItem(storageKey)) || [];
@@ -357,7 +441,11 @@ function initEmployeeApp() {
      return nameValid && emailValid && phoneValid && dobValid;
    }
 
-   function updateEmployee(employeeId) {
+
+
+
+
+  function updateEmployee(employeeId) {
     const form = document.forms.employeeForm;
     const data = JSON.parse(localStorage.getItem(storageKey)) || [];
     const updatedEmployee = {
@@ -371,52 +459,52 @@ function initEmployeeApp() {
         .filter((checkbox) => checkbox.checked)
         .map((checkbox) => checkbox.value),
     };
-
+  
     const isDuplicate = data.some((employee) => {
       return (
         employee.id !== employeeId &&
         employee.email === updatedEmployee.email
-
       );
     });
-
+  
     if (isDuplicate) {
       alert("Record with the same name and email already exists.");
       form.reset();
-
       return;
     }
-
+  
     const indexToUpdate = data.findIndex((e) => e.id === employeeId);
     data[indexToUpdate] = updatedEmployee;
-
+  
     localStorage.setItem(storageKey, JSON.stringify(data));
-
-
+  
     form.reset();
     document.getElementById("submit").style.display = "inline-block";
     document.getElementById("update").style.display = "none";
     document.getElementById("cancel").style.display = "none";
-
   
-    displayEmployees();
+
+   
+    
+
+    basicTableData();
     advanceTable();
     // location.reload();
-    alert("Record has been updated successfully.");
+
+      alert("Record has been updated successfully.");
+      
+
   }
-
-
-
-
+  
 
   function deleteEmployee(employeeId) {
     const data = JSON.parse(localStorage.getItem(storageKey)) || [];
     const newData = data.filter((e) => e.id !== employeeId);
     localStorage.setItem(storageKey, JSON.stringify(newData));
 
-    displayEmployees();
+    basicTableData();
     advanceTable();
-  location.reload()
+  // location.reload()  
    
   }
 
@@ -465,7 +553,7 @@ function initEmployeeApp() {
      addEmployee();
    });
 
-   displayEmployees();
+basicTableData();
    advanceTable();
 
  }
