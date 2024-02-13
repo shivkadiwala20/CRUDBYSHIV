@@ -20,7 +20,7 @@
       <div class="heading">
         <h2>Add Employee</h2>
       </div>
-      <form class="employeeForm" id="employeeForm">
+      <form class="employeeForm" id="employeeForm" return="false">
 
 
 
@@ -67,21 +67,21 @@
           <tr>
             <th>Hobbies:</th>
             <td>
-              <input type="checkbox" name="sports" value="cricket" id="cricket">
+              <input type="checkbox" name="sports" value="Cricket" id="cricket">
               <label for="cricket">cricket</label>
             </td>
           </tr>
           <tr>
             <th></th>
             <td>
-              <input type="checkbox" name="sports" value="chess" id="chess">
+              <input type="checkbox" name="sports" value="Chess" id="chess">
               <label for="chess">chess</label>
             </td>
           </tr>
           <tr>
             <th></th>
             <td>
-              <input type="checkbox" name="sports" value="tennis" id="tennis">
+              <input type="checkbox" name="sports" value="Tennis" id="tennis">
               <label for="tennis">tennis</label>
               <div class="error-message" data-error-for="hobbies"></div>
             </td>
@@ -90,7 +90,7 @@
             <th></th>
             <td>
               <input id="submit" type="submit" name="submit">
-              <button id="update" type="button" style="display: none;">Update</button>
+              <button id="update" type="button" style="display: none;" return="false">Update</button>
               <button id="cancel" type="button" style="display: none;">Cancel</button>
             </td>
           </tr>
@@ -98,9 +98,6 @@
       </form>
 
     </div>
-
-
-
     </div>
   </div>
 
@@ -113,31 +110,16 @@
   <div class="main" id="main">
     <div class="child" id="basicChild">
       <h1>Basic</h1>
-
-
+      
       <div class="heading1" id="basicHeading1">
         <h2>Display</h2>
       </div>
 
           <div class="display-basic-data">
             <table class="basic" id="displayTable">
-
-              <tr id="tableHeaders" >
-                <th class="th-displayData">Id</th>
-                <th class="th-displayData">Name</th>
-                <th class="th-displayData">Gender</th>
-                <th class="th-displayData">Date of Birth:</th>
-                <th class="th-displayData">Email</th>
-                <th class="th-displayData">Phone</th>
-                <th class="th-displayData">Hobbies</th>
-                <th class="th-displayData">Actions</th>
-              </tr>
+              
             </table>
-
-
         </div>
-
-
     </div>
   </div>
 
@@ -158,41 +140,7 @@
         </div>
 
         <table class="advance" id="displayAdvTable">
-          <tr id="advtableHeaders">
-
-            <th class="th-displayAdvData">Id</th>
-
-            </tr>
-
-
-            <th class="th-displayAdvData">Name</th>
-
-            </tr>
-            <tr>
-              <th class="th-displayAdvData">Gender</th>
-
-            </tr>
-            <tr>
-
-              <th class="th-displayAdvData">Date of Birth:</th>
-            </tr>
-            <tr>
-
-              <th class="th-displayAdvData">Phone</th>
-            </tr>
-            <tr>
-
-              <th class="th-displayAdvData">Email</th>
-            </tr>
-            <tr>
-
-              <th class="th-displayAdvData">Hobbies</th>
-            </tr>
-            <tr>
-
-              <th class="th-displayAdvData">Actions</th>
-            </tr>
-          </tr>
+         
         </table>
 
     </div>
