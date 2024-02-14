@@ -25,7 +25,6 @@ h1 {
   /* border: 2px solid; */
 }
 
-
 .baiscForm{
   border: 1px solid #337ab7;
   border-radius: 4px;
@@ -182,7 +181,7 @@ th {
 
 
 
-#displayTable  button {
+#displayBasicTable  button {
   background-color: #337ab7;
   padding: 5px 10px;
   color: #f2f2f2;
@@ -202,14 +201,14 @@ th {
   margin-top: 10px;
   margin-right: 5px;
 }
-#displayTable button:hover {
+#displayBasicTable button:hover {
   background-color: #235a9d;
 }
 
 
 
 
-@media screen and (max-width: 714px) {
+@media screen and (max-width: 329px) {
   form {
     padding: 10px;
   }
@@ -263,7 +262,7 @@ th {
 
 
   table .basic,.advance {
-    display: block;
+  
     overflow-x: auto;
     /* border: 2px solid #337ab7; */
   }
