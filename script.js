@@ -52,7 +52,7 @@ function initEmployeeApp() {
     });
   }
 
-  createTableHeaders("displayTable");
+  createTableHeaders("displayBasicTable");
   createTableHeaders("displayAdvTable");
 
   function addEmployee() {
@@ -116,6 +116,9 @@ function initEmployeeApp() {
       phone,
       hobbies,
     };
+    
+
+
 
 
     data.push(employee);
@@ -124,91 +127,23 @@ function initEmployeeApp() {
     basicTableData();
     advanceTable();
     alert("Record has been added successfully.");
+
+
+
    
   }
 
 
-    // function advanceTable() {
-    //   const advanceTable = document.getElementById("displayAdvTable");
-    //   const trs = advanceTable.getElementsByTagName("tr");
-    //   const advanceChild = document.getElementById("advanceChild");
-    
-    //   const arr = JSON.parse(localStorage.getItem(storageKey)) || [];
-    
-    //   if (arr.length === 0) {
-    //     advanceTable.style.display = "none";
-    //     advanceChild.style.display = "none";
-    //     return;
-    //   }
-    
-    //   advanceChild.style.padding = "55px 0 0 0";
-    
-    //   const advData = Object.keys(arr[0]);
-      
-    
-    //   // if (trs.length > 0) {
-    //   //   for (let i = 0; i < trs.length; i++) {
-    //   //     trs[i].innerHTML = "";
-    //   //     console.log(trs)
-          
-    //   //     }
-                
-          
-    //   //     } 
-          
-    //     for (let i = 0; i < advData.length + 1; i++) {
-    //     const tr = document.createElement("tr");
-      
-        
-    //     for (let x in arr) {
-          
-    //       const td = document.createElement("td");
-    //           console.log(td)
-
-                
-    //       if (i === advData.length) {
-    //         td.style.width = "100%";
-    //         const editButton = document.createElement("button");
-    //         editButton.textContent = "Edit";
-    //         td.appendChild(editButton);
-    //         editButton.addEventListener("click", () => editEmployee(arr[x].id));
-    
-    //         const deleteButton = document.createElement("button");
-    //         deleteButton.textContent = "Delete";
-    //         td.appendChild(deleteButton);
-    //         deleteButton.addEventListener("click", () => {
-    //           const permission = confirm("Are you sure?");
-    //           if (permission) {
-    //             deleteEmployee(arr[x].id);
-    //           }
-    //         });
-    //       } else {
-    //         td.innerText = i === 0 ? Number(x) + 1 : arr[x][advData[i]];
-    //       }
-
-          
-
-    //       if (!trs[i]) {
-    //         trs[i] = document.createElement("tr");
-          
-    //         advanceTable.appendChild(trs[i]);
-    //       }
-    
-    //       trs[i].appendChild(td);
-    //     }
-    //   }
-
-    // }
-  
-
     function createCell(text, isAction = false, action = null) {
-      const td = document.createElement("td");
       
+      const td = document.createElement("td");
+    
       if (isAction) {
           const button = document.createElement("button");
           button.textContent = text;
           button.addEventListener("click", action);
           td.appendChild(button);
+          td.style.border="none"
       } else {
           td.textContent = text;
       }
@@ -223,13 +158,14 @@ function initEmployeeApp() {
     const arr = JSON.parse(localStorage.getItem(storageKey)) || [];
   
     if (arr.length === 0) {
-        advanceTable.style.display = "none";
+   
         advanceChild.style.display = "none";
         return;
     }
   
     advanceChild.style.padding = "55px 0 0 0";
-  
+    advanceChild.style.display = "block";
+   
    
     while (advanceTable.firstChild) {
         advanceTable.removeChild(advanceTable.firstChild);
@@ -237,37 +173,48 @@ function initEmployeeApp() {
   
     const trIndex = document.createElement("tr");
     const thIndex = document.createElement("th");
-    thIndex.textContent = "Index";
+  
+    thIndex.textContent = "Index";  
     trIndex.appendChild(thIndex);
     advanceTable.appendChild(trIndex);
-  
+    
     Object.keys(arr[0]).forEach(key => {
         if (key !== 'id') {
             const tr = document.createElement("tr");
             const th = document.createElement("th");
+        
+
             th.textContent = key;
             tr.appendChild(th);
             advanceTable.appendChild(tr);
         }
     });
+
+  
+    const th=document.createElement("th")
+    th.innerText="Actions"
     const tr = document.createElement("tr");
-    tr.appendChild(createCell("Actions"));
+ 
+
+    tr.appendChild(th)
+
     advanceTable.appendChild(tr);
   
    
     arr.forEach((item, index) => {
         const tdIndex = createCell(index + 1);
+
         advanceTable.rows[0].appendChild(tdIndex);
   
         Object.values(item).forEach((value, i) => {
             if (i !== 0) {
                 const td = createCell(value);
-                
+                 
                 advanceTable.rows[i].appendChild(td);
             }
         });
         const td = document.createElement("td");
-        // td.style.width = "100%"
+     
         const editButton = createCell("Edit", true, () => editEmployee(item.id));
         const deleteButton = createCell("Delete", true, () => {
             const permission = confirm("Are you sure?");
@@ -283,7 +230,7 @@ function initEmployeeApp() {
 
 
   function basicTableData() {
-    const basicTable = document.getElementById("displayTable");
+    const basicTable = document.getElementById("displayBasicTable");
     const basicChild = document.getElementById("basicChild");
     const data = JSON.parse(localStorage.getItem(storageKey)) || [];
   
@@ -312,7 +259,8 @@ function initEmployeeApp() {
   
     basicChild.style.display = "basicChild";
     basicChild.style.padding = "88px 0 0 0";
-  
+    basicTable.style.display = "block";
+    basicChild.style.display = "block";
     data.forEach((employee, index) => {
       const rowId = `employeeRow_${employee.id}`;
       let existingRow = document.getElementById(rowId);
@@ -472,7 +420,7 @@ function initEmployeeApp() {
       form.reset();
       return;
     }
-  
+    
     const indexToUpdate = data.findIndex((e) => e.id === employeeId);
     data[indexToUpdate] = updatedEmployee;
   
@@ -490,7 +438,7 @@ function initEmployeeApp() {
     basicTableData();
     advanceTable();
     // location.reload();
-
+    
       alert("Record has been updated successfully.");
       
 
@@ -504,7 +452,7 @@ function initEmployeeApp() {
 
     basicTableData();
     advanceTable();
-  // location.reload()  
+ 
    
   }
 
